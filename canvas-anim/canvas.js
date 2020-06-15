@@ -11,12 +11,12 @@ class Circle {
     color;
     endAngle;
     radius;
-    speed;
+    maxSpeed;
     startAngle;
     x;
-    xSign = 1;
     y;
-    ySign = 1;
+    xVel;
+    yVel;
 
     /**
      *
@@ -27,7 +27,7 @@ class Circle {
      * @param {number} endAngle
      * @param {boolean} antiClockwise
      * @param {string} color
-     * @param {number} speed
+     * @param {number} maxSpeed
      */
 
     constructor(
@@ -36,7 +36,7 @@ class Circle {
         radius,
         startAngle,
         endAngle,
-        speed = 5,
+        maxSpeed = 5,
         color = `#${Math.floor(Math.random() * 25542195).toString(16)}`,
         antiClockwise = false
     ) {
@@ -44,10 +44,12 @@ class Circle {
         this.color = color;
         this.endAngle = endAngle;
         this.radius = radius;
-        this.speed = speed;
+        this.maxSpeed = maxSpeed;
         this.startAngle = startAngle;
         this.x = x;
         this.y = y;
+        this.xVel = (Math.random() - 0.5) * maxSpeed;
+        this.yVel = (Math.random() - 0.5) * maxSpeed;
     }
 
     /**
@@ -88,20 +90,32 @@ class Circle {
 
     update() {
         if (this.x + 30 >= innerWidth || this.x - 30 <= 0)
-            this.xSign = -this.xSign;
+            this.xVel = -this.xVel;
         if (this.y + 30 >= innerHeight || this.y - 30 <= 0)
-            this.ySign = -this.ySign;
-        this.x += this.xSign * this.speed;
-        this.y += this.ySign * this.speed;
+            this.yVel = -this.yVel;
+        this.x += this.xVel;
+        this.y += this.yVel;
+        this.draw();
     }
 }
 
-const circle = new Circle(200, 200, 30, 0, Math.PI * 2, 5, "pink");
+/**
+ * @type Circle[]
+ */
+const circles = [];
+for (let i = 0; i < 300; i++) {
+    let r = Math.random() * 30 + 5;
+    let x = Math.random() * (innerWidth - r * 2) + r;
+    let y = Math.random() * (innerHeight - r * 2) + r;
+    circles.push(new Circle(x, y, r, 0, Math.PI * 2, Math.random() * 8 + 1));
+}
+
 function animate() {
     requestAnimationFrame(animate);
     c.clearRect(0, 0, innerWidth, innerHeight);
-    circle.update();
-    circle.draw();
+    circles.forEach((circle) => {
+        circle.update();
+    });
 }
 
 animate();
