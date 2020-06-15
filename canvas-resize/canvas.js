@@ -39,7 +39,7 @@ c.stroke();
  */
 function createArc(x, y, radius, startAngle, endAngle, antiClockwise = false) {
   c.beginPath();
-  c.arc(x, y, radius, startAngle, endAngle);
+  c.arc(x, y, radius, startAngle, endAngle, antiClockwise);
   c.strokeStyle = `#${Math.floor(Math.random() * 25542195).toString(16)}`;
   c.stroke();
 }
