@@ -6,12 +6,17 @@ canvas.width = innerWidth;
 // c = context
 const c = canvas.getContext("2d");
 
+function randomColor() {
+    return `#${Math.floor(Math.random() * 25542195).toString(16)}`;
+}
+
 class Circle {
     antiClockwise;
     color;
     endAngle;
     radius;
     maxSpeed;
+    fillColor = randomColor();
     startAngle;
     x;
     y;
@@ -37,7 +42,7 @@ class Circle {
         startAngle,
         endAngle,
         maxSpeed = 5,
-        color = `#${Math.floor(Math.random() * 25542195).toString(16)}`,
+        color = randomColor(),
         antiClockwise = false
     ) {
         this.antiClockwise = antiClockwise;
@@ -59,6 +64,8 @@ class Circle {
      * @param {number} radius
      * @param {number} startAngle
      * @param {number} endAngle
+     * @param {string} color
+     * @param {string} fillColor
      * @param {boolean} antiClockwise
      */
     createArc(
@@ -67,13 +74,16 @@ class Circle {
         radius,
         startAngle,
         endAngle,
-        color = `#${Math.floor(Math.random() * 25542195).toString(16)}`,
+        color,
+        fillColor,
         antiClockwise = false
     ) {
         c.beginPath();
         c.arc(x, y, radius, startAngle, endAngle, antiClockwise);
         c.strokeStyle = color;
         c.stroke();
+        c.fillStyle = fillColor;
+        c.fill();
     }
 
     draw() {
@@ -84,15 +94,18 @@ class Circle {
             this.startAngle,
             this.endAngle,
             this.color,
+            this.fillColor,
             this.antiClockwise
         );
     }
 
     update() {
-        if (this.x + 30 >= innerWidth || this.x - 30 <= 0)
-            this.xVel = -this.xVel;
-        if (this.y + 30 >= innerHeight || this.y - 30 <= 0)
+        if (this.x + 30 >= innerWidth || this.x - 30 <= 0) {
+            c.fillStyle = this.xVel = -this.xVel;
+        }
+        if (this.y + 30 >= innerHeight || this.y - 30 <= 0) {
             this.yVel = -this.yVel;
+        }
         this.x += this.xVel;
         this.y += this.yVel;
         this.draw();
@@ -104,6 +117,7 @@ class Circle {
  */
 const circles = [];
 for (let i = 0; i < 300; i++) {
+    c.fillStyle = `#${Math.floor(Math.random() * 25542195).toString(16)}`;
     let r = Math.random() * 30 + 5;
     let x = Math.random() * (innerWidth - r * 2) + r;
     let y = Math.random() * (innerHeight - r * 2) + r;
