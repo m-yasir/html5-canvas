@@ -27,7 +27,6 @@ c.strokeStyle = "#fa34a3";
 c.stroke();
 
 // Arcs/Circles
-const colors = ["red", "green", "blue", "orange", "yellow"];
 
 /**
  *
@@ -39,7 +38,6 @@ const colors = ["red", "green", "blue", "orange", "yellow"];
  * @param {boolean} antiClockwise
  */
 function createArc(x, y, radius, startAngle, endAngle, antiClockwise = false) {
-  const L = colors.length;
   c.beginPath();
   c.arc(x, y, radius, startAngle, endAngle);
   c.strokeStyle = `#${Math.floor(Math.random() * 25542195).toString(16)}`;
