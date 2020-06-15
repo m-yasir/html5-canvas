@@ -21,11 +21,12 @@ window.addEventListener("mouseout", () => {
     mouse.y = undefined;
 });
 
+// Supposed to be called the first time when the script loads up (requires lib/canvas to be loaded in html)
 const init = () => {
     /**
      * @type Circle[]
      */
-    const circles = [];
+    const circles = []; //
     for (let i = 0; i < 500; i++) {
         let r = Math.random() * 5 + 1;
         let x = Math.random() * (innerWidth - r * 2) + r;
@@ -35,6 +36,7 @@ const init = () => {
         );
     }
 
+    // recursive animate function that animates circles and calls update for each circle to update calculate and update its position
     function animate() {
         requestAnimationFrame(animate);
         c.clearRect(0, 0, innerWidth, innerHeight);
@@ -46,10 +48,12 @@ const init = () => {
     animate();
 };
 
+// Resize event to resize canvas and refresh circles positions on canvas.
 window.addEventListener("resize", () => {
     canvas.height = innerHeight;
     canvas.width = innerWidth;
     init();
 });
 
+// Calls init first time to draw circles when script loads.
 init();
